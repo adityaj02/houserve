@@ -166,7 +166,7 @@ export default function CartSummary({
     const openWhatsApp = (customMeta = null) => {
         const meta = customMeta || bookingMetadata;
         const bookingId = meta?.order_id || meta?.id || meta?._id || 'PENDING';
-        const serviceNames = cartItems.map((item) => item.name || item.title).filter(Boolean).join(', ') || meta?.cart_items?.map(i => i.name || i.title).filter(Boolean).join(', ') || meta?.service_name || 'HouseServe Pro Service';
+        const serviceNames = cartItems.map((item) => item.name || item.title).filter(Boolean).join(', ') || meta?.cart_items?.map(i => i.name || i.title).filter(Boolean).join(', ') || meta?.service_name || 'Houserve Pro Service';
         const date = meta?.date || selectedDate || 'Flexible';
         const time = meta?.time || selectedTime || '10:00 AM';
         const cityStr = addressDetails.city ? `, ${addressDetails.city}` : '';

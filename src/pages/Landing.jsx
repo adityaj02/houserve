@@ -29,7 +29,7 @@ export default function Landing({ initialLoginOpen = false }) {
   }, []);
 
   if (activeView === "houserve") {
-    return <Dashboard onBackToHouseServe={() => setActiveView("overview")} />;
+    return <Dashboard onBackToHouserve={() => setActiveView("overview")} />;
   }
 
   return (
@@ -40,9 +40,9 @@ export default function Landing({ initialLoginOpen = false }) {
           <div className="flex items-center gap-10">
             <button onClick={() => setActiveView("overview")} className="flex items-center gap-3 group cursor-pointer text-slate-900">
               <div className="relative w-8 h-8 rounded-lg bg-transparent shadow-sm flex items-center justify-center overflow-hidden">
-                <img src="/Assets/LOGO.png" alt="HouseServe Logo" className="w-full h-full object-contain" />
+                <img src="/Assets/LOGO.png" alt="Houserve Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-display font-bold text-lg tracking-tight">HouseServe</span>
+              <span className="font-display font-bold text-lg tracking-tight">Houserve</span>
             </button>
             <nav className="hidden md:flex items-center gap-7 text-[14px] font-medium text-slate-600">
               <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Overview</button>
@@ -106,7 +106,7 @@ export default function Landing({ initialLoginOpen = false }) {
               <div className="relative z-10 text-center px-6 max-w-2xl">
                 <span className="inline-block text-[11px] tracking-[0.2em] font-medium text-slate-400 uppercase mb-3">Living Architecture & Lifecycle</span>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-white tracking-tight">
-                  HouseServe
+                  Houserve
                 </h1>
                 <p className="mt-3 text-sm md:text-base text-slate-300 font-light max-w-lg mx-auto leading-relaxed">
                   A unified operating standard for modern residential management, architectural procurement, and verified property transactions.
@@ -122,7 +122,7 @@ export default function Landing({ initialLoginOpen = false }) {
               </div>
               <div className="max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl lg:text-[40px] leading-[1.25] font-display font-bold text-slate-900 tracking-[-0.02em]">
-                  HouseServe is built on a simple idea: <span className="text-slate-400 font-normal">property ownership should feel clear, not overwhelming.</span> We synchronize how spaces are maintained, supplied, and lived in.
+                  Houserve is built on a simple idea: <span className="text-slate-400 font-normal">property ownership should feel clear, not overwhelming.</span> We synchronize how spaces are maintained, supplied, and lived in.
                 </h2>
               </div>
               {/* 3 Pristine Editorial White Cards */}
@@ -139,7 +139,7 @@ export default function Landing({ initialLoginOpen = false }) {
                     </p>
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
-                    <span className="text-slate-400">HouseServe Labor</span>
+                    <span className="text-slate-400">Houserve Labor</span>
                     <button onClick={() => setActiveView("houserve")} className="font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 cursor-pointer">Master Trades →</button>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function Landing({ initialLoginOpen = false }) {
                 Experience effortless homeownership.
               </h2>
               <p className="text-sm sm:text-base text-slate-400 font-normal leading-relaxed mb-8 max-w-lg">
-                From emergency repairs to complete turnkey transformations, unify your entire property footprint on HouseServe.
+                From emergency repairs to complete turnkey transformations, unify your entire property footprint on Houserve.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <button onClick={() => isAuthenticated ? setActiveView("houserve") : setOpenLogin(true)} className="w-full sm:w-auto px-7 py-3 rounded-xl bg-white text-slate-950 text-xs font-semibold hover:bg-slate-100 transition-colors shadow-sm cursor-pointer">
@@ -439,7 +439,7 @@ export default function Landing({ initialLoginOpen = false }) {
                 <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center text-white">
                   <span className="material-symbols-outlined text-[16px]">roofing</span>
                 </div>
-                <span className="font-display font-bold text-base text-slate-950">HouseServe</span>
+                <span className="font-display font-bold text-base text-slate-950">Houserve</span>
               </div>
               <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
                 Unified property ecosystem syncing certified mechanical labor, architectural procurement, and authenticated title transfers across modern Indian metros.
@@ -448,7 +448,7 @@ export default function Landing({ initialLoginOpen = false }) {
             <div>
               <h5 className="text-xs font-bold text-slate-950 uppercase tracking-wider mb-4">Ecosystem</h5>
               <ul className="space-y-2.5 text-xs text-slate-500">
-                <li><a className="hover:text-slate-950 transition-colors" href="#services">HouseServe™ Labor</a></li>
+                <li><a className="hover:text-slate-950 transition-colors" href="#services">Houserve™ Labor</a></li>
                 <li><a className="hover:text-slate-950 transition-colors" href="#procurement">BuildCart™ Depot</a></li>
                 <li><a className="hover:text-slate-950 transition-colors" href="#portfolio">Verified Properties</a></li>
                 <li><a className="hover:text-slate-950 transition-colors" href="#bundle">Turnkey Bundles</a></li>
@@ -474,7 +474,7 @@ export default function Landing({ initialLoginOpen = false }) {
             </div>
           </div>
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-            <span>© 2025 HouseServe Technologies Pvt. Ltd. Minimal editorial architecture.</span>
+            <span>© 2025 Houserve Technologies Pvt. Ltd. Minimal editorial architecture.</span>
             <div className="flex items-center gap-6">
               <a className="hover:text-slate-600 transition-colors" href="#">Status</a>
               <a className="hover:text-slate-600 transition-colors" href="#">Security</a>

@@ -1,10 +1,10 @@
 import { getThemeTokens } from "../../styles/theme";
 
-export default function Sidebar({ currentView, setCurrentView, theme, onLogout, bookingsCount, onBackToHouseServe }) {
+export default function Sidebar({ currentView, setCurrentView, theme, onLogout, bookingsCount, onBackToHouserve }) {
     const colors = getThemeTokens(theme);
 
     const items = [
-        { icon: "roofing", label: "HouseServe", view: "HouseServe", isHouseServe: true },
+        { icon: "roofing", label: "Houserve", view: "Houserve", isHouserve: true },
         { icon: "home", label: "Home", view: "home" },
         { icon: "grid_view", label: "Services", view: "services" },
         { icon: "receipt_long", label: "My Bookings", view: "bookings", badge: bookingsCount },
@@ -24,7 +24,7 @@ export default function Sidebar({ currentView, setCurrentView, theme, onLogout, 
                 <div 
                     className="flex items-center gap-3 px-2 lg:px-4 cursor-pointer group" 
                     onClick={() => {
-                        if (onBackToHouseServe) onBackToHouseServe();
+                        if (onBackToHouserve) onBackToHouserve();
                         else setCurrentView("home");
                     }}
                 >
@@ -50,8 +50,8 @@ export default function Sidebar({ currentView, setCurrentView, theme, onLogout, 
                             <button
                                 key={i}
                                 onClick={() => {
-                                    if (item.isHouseServe && onBackToHouseServe) {
-                                        onBackToHouseServe();
+                                    if (item.isHouserve && onBackToHouserve) {
+                                        onBackToHouserve();
                                     } else {
                                         setCurrentView(item.view);
                                     }

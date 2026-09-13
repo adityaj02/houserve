@@ -57,7 +57,7 @@ const hasResolvedLocation = (value = "") =>
     !String(value).toLowerCase().includes("denied")
   );
 
-export default function Dashboard({ onBackToHouseServe, initialView }) {
+export default function Dashboard({ onBackToHouserve, initialView }) {
   const [theme, setTheme] = useState("light");
   const [activeIdx, setActiveIdx] = useState(0);
   const { location: detectedLocation, isLoading: isLocating, refreshLocation } = useLocation({ autoStart: false });
@@ -833,7 +833,7 @@ export default function Dashboard({ onBackToHouseServe, initialView }) {
           theme={theme}
           onLogout={handleLogout}
           bookingsCount={bookings.filter(b => b.status === 'pending').length}
-          onBackToHouseServe={onBackToHouseServe}
+          onBackToHouserve={onBackToHouserve}
         />
 
         <MobileBottomNav
@@ -854,7 +854,7 @@ export default function Dashboard({ onBackToHouseServe, initialView }) {
             userInitials={userInitials}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
-            onBackToHouseServe={onBackToHouseServe}
+            onBackToHouserve={onBackToHouserve}
           />
 
           {currentView === "home" && !readingPost && (
@@ -1100,7 +1100,7 @@ export default function Dashboard({ onBackToHouseServe, initialView }) {
                     Editorial Insights
                   </span>
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-slate-950">
-                    HouseServe Blog
+                    Houserve Blog
                   </h1>
                 </div>
               </div>

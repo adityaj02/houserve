@@ -39,14 +39,14 @@ export default function LoginPage() {
           <div className="mb-6 flex justify-center">
             <img 
               src="/Assets/LOGO.png" 
-              alt="HouseServe Logo" 
+              alt="Houserve Logo" 
               className="w-20 h-20 object-contain drop-shadow-2xl" 
             />
           </div>
 
           <h2 className="mb-2 text-3xl font-extrabold tracking-tight text-white">Welcome Back</h2>
           <p className="mb-8 text-sm font-medium text-slate-300">
-            Sign in with your Google account to continue to HouseServe.
+            Sign in with your Google account to continue to Houserve.
           </p>
 
           {errorMessage && (

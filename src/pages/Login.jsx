@@ -40,7 +40,7 @@ export default function Login({ close }) {
             <span className="material-symbols-outlined text-3xl">roofing</span>
           </div>
 
-          <h2 className="mb-2 text-2xl font-black tracking-tighter sm:text-3xl">Welcome to HouseServe</h2>
+          <h2 className="mb-2 text-2xl font-black tracking-tighter sm:text-3xl">Welcome to Houserve</h2>
           <p className="mb-8 text-sm text-white/60">
             Sign in with your Google account to access your account, bookings, and verified services.
           </p>

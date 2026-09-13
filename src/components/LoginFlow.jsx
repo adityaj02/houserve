@@ -43,7 +43,7 @@ export default function LoginFlow({ onClose }) {
       <h2 className="login-title" style={{ textAlign: "center" }}>Welcome Back</h2>
 
       <p className="company-brief" style={{ textAlign: "center" }}>
-        Sign in with your Google account to continue to HouseServe.
+        Sign in with your Google account to continue to Houserve.
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 8 }}>

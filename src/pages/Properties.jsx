@@ -252,7 +252,7 @@ export default function Properties({ onBack, onOpenLogin }) {
                 </span>
                 <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
                   <span className="material-symbols-outlined text-[14px] text-emerald-400">gpp_good</span> 
-                  HouseServe™ Ultrasound Tested
+                  Houserve™ Ultrasound Tested
                 </span>
                 <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
                   <span className="material-symbols-outlined text-[14px] text-emerald-400">handshake</span> 
@@ -548,7 +548,7 @@ export default function Properties({ onBack, onOpenLogin }) {
               “Real estate transactions should operate like sovereign escrow—settled with mathematical calm.”
             </h2>
             <p className="text-slate-300 font-normal text-sm sm:text-base leading-relaxed max-w-2xl">
-              By eliminating commissions, HouseServe aligns the buyer and seller directly. Funds are held strictly in designated RBI-regulated escrow custody accounts, released only upon joint biometric deed confirmation at the Sub-Registrar’s office.
+              By eliminating commissions, Houserve aligns the buyer and seller directly. Funds are held strictly in designated RBI-regulated escrow custody accounts, released only upon joint biometric deed confirmation at the Sub-Registrar’s office.
             </p>
           </div>
 
@@ -571,7 +571,7 @@ export default function Properties({ onBack, onOpenLogin }) {
               <div className="font-mono text-xs text-slate-400 font-semibold">02 / Ultrasound Diagnostics</div>
               <h4 className="font-display font-bold text-sm text-white">Structural Health Scan</h4>
               <p className="text-xs text-slate-400 leading-relaxed font-normal">
-                Certified HouseServe™ engineers test column stress, conduit loads, and thermal moisture seepage.
+                Certified Houserve™ engineers test column stress, conduit loads, and thermal moisture seepage.
               </p>
             </div>
 
