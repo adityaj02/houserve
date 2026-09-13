@@ -57,7 +57,7 @@ const hasResolvedLocation = (value = "") =>
     !String(value).toLowerCase().includes("denied")
   );
 
-export default function Dashboard({ onBackToOneHome, initialView }) {
+export default function Dashboard({ onBackToHouseServe, initialView }) {
   const [theme, setTheme] = useState("light");
   const [activeIdx, setActiveIdx] = useState(0);
   const { location: detectedLocation, isLoading: isLocating, refreshLocation } = useLocation({ autoStart: false });
@@ -833,7 +833,7 @@ export default function Dashboard({ onBackToOneHome, initialView }) {
           theme={theme}
           onLogout={handleLogout}
           bookingsCount={bookings.filter(b => b.status === 'pending').length}
-          onBackToOneHome={onBackToOneHome}
+          onBackToHouseServe={onBackToHouseServe}
         />
 
         <MobileBottomNav
@@ -854,7 +854,7 @@ export default function Dashboard({ onBackToOneHome, initialView }) {
             userInitials={userInitials}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
-            onBackToOneHome={onBackToOneHome}
+            onBackToHouseServe={onBackToHouseServe}
           />
 
           {currentView === "home" && !readingPost && (

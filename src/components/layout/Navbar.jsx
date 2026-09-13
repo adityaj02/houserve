@@ -1,6 +1,6 @@
 import { DASHBOARD_FILTERS, getThemeTokens } from "../../styles/theme";
 
-export default function Navbar({ location, toggleTheme, theme, setCurrentView, userInitials = "B", activeFilter, setActiveFilter, onLogout, onViewProfile, onBackToOneHome }) {
+export default function Navbar({ location, toggleTheme, theme, setCurrentView, userInitials = "B", activeFilter, setActiveFilter, onLogout, onViewProfile, onBackToHouseServe }) {
     const colors = getThemeTokens(theme);
 
     return (
@@ -9,7 +9,7 @@ export default function Navbar({ location, toggleTheme, theme, setCurrentView, u
             <div 
               className="flex items-center gap-3 text-left min-w-0 cursor-pointer group"
               onClick={() => {
-                if (onBackToOneHome) onBackToOneHome();
+                if (onBackToHouseServe) onBackToHouseServe();
                 else setCurrentView('home');
               }}
             >
@@ -42,13 +42,13 @@ export default function Navbar({ location, toggleTheme, theme, setCurrentView, u
 
             {/* Right: Actions */}
             <div className="flex items-center justify-end gap-2 lg:gap-3 relative text-right">
-                {onBackToOneHome && (
+                {onBackToHouseServe && (
                     <button
-                        onClick={onBackToOneHome}
+                        onClick={onBackToHouseServe}
                         className="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-slate-950 text-white hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
                     >
                         <span className="material-symbols-outlined text-[15px]">roofing</span>
-                        <span className="hidden sm:inline">OneHome</span>
+                        <span className="hidden sm:inline">HouseServe</span>
                     </button>
                 )}
                 <a className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-mono ${colors.subtext} hover:text-slate-900 transition-colors`} href="tel:+919811797407">

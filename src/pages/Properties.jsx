@@ -149,7 +149,7 @@ export default function Properties({ onBack, onOpenLogin }) {
               alt="Property Banner"
               className="w-full h-full object-cover object-center opacity-45 mix-blend-luminosity filter contrast-125 brightness-75 scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/90 to-slate-950/50 backdrop-blur-[2px]" />
           </div>
 
           {/* Hero Content */}
@@ -179,20 +179,13 @@ export default function Properties({ onBack, onOpenLogin }) {
                 <span className="material-symbols-outlined text-[16px]">add_home</span>
                 <span>Post Property (Zero Brokerage)</span>
               </button>
-              <button
-                onClick={() => setShowManageModal(true)}
-                className="px-6 py-3 rounded-xl bg-slate-900/80 backdrop-blur text-white border border-slate-700/80 text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[16px]">manage_accounts</span>
-                <span>Manage / Delete My Listing</span>
-              </button>
             </div>
 
             {/* FLOATING SEARCH BAR */}
             <div className="pt-4 max-w-3xl mx-auto">
               <form
                 onSubmit={handleQueryCatalog}
-                className="bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+                className="bg-slate-800/60 backdrop-blur-2xl border border-slate-600/50 rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
               >
                 {/* Corridor Selector */}
                 <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/90 rounded-xl sm:w-1/3 text-left border border-slate-700/60">
@@ -242,17 +235,29 @@ export default function Properties({ onBack, onOpenLogin }) {
                   type="submit"
                   className="px-5 py-2.5 bg-white text-slate-950 hover:bg-slate-100 rounded-xl text-xs font-bold tracking-wide transition-colors flex items-center justify-center gap-1.5 shrink-0 shadow-md cursor-pointer"
                 >
-                  <span>Query Catalog</span>
+                  <span>Search Homes</span>
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
               </form>
 
               {/* Micro Guarantee Lineage */}
-              <div className="flex flex-wrap items-center justify-center gap-5 mt-4 text-xs text-slate-300 font-medium">
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 100% Khata/Title Cleared</span>
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 30-Day Auto Delete Expiry</span>
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> HouseServe™ Ultrasound Tested</span>
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Direct Seller Deed</span>
+              <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
+                  <span className="material-symbols-outlined text-[14px] text-emerald-400">verified_user</span> 
+                  100% Khata/Title Cleared
+                </span>
+                <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
+                  <span className="material-symbols-outlined text-[14px] text-emerald-400">timer</span> 
+                  30-Day Auto Delete Expiry
+                </span>
+                <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
+                  <span className="material-symbols-outlined text-[14px] text-emerald-400">gpp_good</span> 
+                  HouseServe™ Ultrasound Tested
+                </span>
+                <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg text-[11px] font-semibold tracking-wide text-slate-300">
+                  <span className="material-symbols-outlined text-[14px] text-emerald-400">handshake</span> 
+                  Direct Seller Deed
+                </span>
               </div>
             </div>
           </div>
@@ -543,7 +548,7 @@ export default function Properties({ onBack, onOpenLogin }) {
               “Real estate transactions should operate like sovereign escrow—settled with mathematical calm.”
             </h2>
             <p className="text-slate-300 font-normal text-sm sm:text-base leading-relaxed max-w-2xl">
-              By eliminating commissions, OneHome aligns the buyer and seller directly. Funds are held strictly in designated RBI-regulated escrow custody accounts, released only upon joint biometric deed confirmation at the Sub-Registrar’s office.
+              By eliminating commissions, HouseServe aligns the buyer and seller directly. Funds are held strictly in designated RBI-regulated escrow custody accounts, released only upon joint biometric deed confirmation at the Sub-Registrar’s office.
             </p>
           </div>
 

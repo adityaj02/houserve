@@ -4,9 +4,12 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Properties from "./Properties";
 import { useAuth } from "../context/AuthContext";
+import ManageListingsModal from "../components/ManageListingsModal";
 
 export default function Landing({ initialLoginOpen = false }) {
   const [openLogin, setOpenLogin] = useState(initialLoginOpen);
+  const [openManageListings, setOpenManageListings] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [activeView, setActiveView] = useState("overview");
   const auth = useAuth();
   const isAuthenticated = auth?.isAuthenticated;
@@ -17,39 +20,65 @@ export default function Landing({ initialLoginOpen = false }) {
     setOpenLogin(initialLoginOpen);
   }, [initialLoginOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if (activeView === "houserve") {
-    return <Dashboard onBackToOneHome={() => setActiveView("overview")} />;
+    return <Dashboard onBackToHouseServe={() => setActiveView("overview")} />;
   }
 
   return (
     <div className="bg-[#f8fafc] text-slate-900 selection:bg-slate-900 selection:text-white font-sans min-h-screen">
       {/* TOP APP BAR */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60">
+      <header className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg' : 'bg-transparent border-b border-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10 h-18 py-4 flex items-center justify-between">
           <div className="flex items-center gap-10">
-            <button onClick={() => setActiveView("overview")} className="flex items-center gap-3 text-slate-900 group cursor-pointer">
-              <div className="w-8 h-8 rounded-lg bg-slate-950 flex items-center justify-center text-white shadow-sm">
+            <button onClick={() => setActiveView("overview")} className={`flex items-center gap-3 group cursor-pointer ${scrolled ? 'text-white' : 'text-slate-900'}`}>
+              <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white shadow-sm">
                 <span className="material-symbols-outlined text-[18px]">roofing</span>
               </div>
-              <span className="font-display font-bold text-lg tracking-tight text-slate-900">OneHome</span>
+              <span className="font-display font-bold text-lg tracking-tight">HouseServe</span>
             </button>
-            <nav className="hidden md:flex items-center gap-7 text-[14px] font-medium text-slate-600">
-              <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Overview</button>
-              <button onClick={() => setActiveView("houserve")} className={`transition-colors cursor-pointer ${activeView === "houserve" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Houserve</button>
-              <a href="https://build-kart-in-is6v.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-slate-950 transition-colors cursor-pointer font-medium">BuildKart</a>
-              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Properties</button>
+            <nav className={`hidden md:flex items-center gap-7 text-[14px] font-medium ${scrolled ? 'text-slate-300' : 'text-slate-600'}`}>
+              <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Overview</button>
+              <button onClick={() => setActiveView("houserve")} className={`transition-colors cursor-pointer ${activeView === "houserve" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Houserve</button>
+              <a href="https://build-kart-in-is6v.vercel.app/" target="_blank" rel="noopener noreferrer" className={`transition-colors cursor-pointer font-medium ${scrolled ? "hover:text-white" : "hover:text-slate-950"}`}>BuildKart</a>
+              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Properties</button>
             </nav>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 relative">
             {isAuthenticated ? (
-              <div className="flex items-center gap-2">
-                <button onClick={() => setActiveView("houserve")} className="px-4 py-1.5 rounded-xl bg-slate-950 text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm cursor-pointer flex items-center gap-1.5">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setActiveView("houserve")} className="px-4 py-1.5 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600 transition-colors shadow-sm cursor-pointer flex items-center gap-1.5">
                   <span>Houserve Pro</span>
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
-                <button onClick={signOut} className="px-3 py-1.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs font-semibold hover:bg-rose-100 transition-colors shadow-xs cursor-pointer">
-                  Log out
-                </button>
+                <div className="relative group">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all border bg-slate-900 border-slate-800 shadow-sm" aria-label="User menu">
+                        <span className="text-[12px] font-bold text-white">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+                        <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-sm"></div>
+                    </div>
+                    <div className="absolute right-0 top-full mt-2 w-52 rounded-xl shadow-xl border border-slate-200/80 bg-white py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-200 z-[100] hidden lg:block backdrop-blur-xl">
+                        <button onClick={() => { setOpenManageListings(true); }} className="w-full text-left px-4 py-2.5 text-sm font-medium transition-colors text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                          <span className="material-symbols-outlined text-[18px] text-slate-400">home_work</span>
+                          Manage My Listings
+                        </button>
+                        <hr className="my-1 border-t border-slate-100" />
+                        <button 
+                            type="button"
+                            onClick={signOut} 
+                            className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors cursor-pointer flex items-center gap-2"
+                        >
+                            <span className="material-symbols-outlined text-[18px]">logout</span>
+                            Log out
+                        </button>
+                    </div>
+                </div>
               </div>
             ) : (
               <button onClick={() => setOpenLogin(true)} className="px-4 py-1.5 rounded-xl bg-slate-950 text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm cursor-pointer">
@@ -77,7 +106,7 @@ export default function Landing({ initialLoginOpen = false }) {
               <div className="relative z-10 text-center px-6 max-w-2xl">
                 <span className="inline-block text-[11px] tracking-[0.2em] font-medium text-slate-400 uppercase mb-3">Living Architecture & Lifecycle</span>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-white tracking-tight">
-                  OneHome
+                  HouseServe
                 </h1>
                 <p className="mt-3 text-sm md:text-base text-slate-300 font-light max-w-lg mx-auto leading-relaxed">
                   A unified operating standard for modern residential management, architectural procurement, and verified property transactions.
@@ -93,7 +122,7 @@ export default function Landing({ initialLoginOpen = false }) {
               </div>
               <div className="max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl lg:text-[40px] leading-[1.25] font-display font-bold text-slate-900 tracking-[-0.02em]">
-                  OneHome is built on a simple idea: <span className="text-slate-400 font-normal">property ownership should feel clear, not overwhelming.</span> We synchronize how spaces are maintained, supplied, and lived in.
+                  HouseServe is built on a simple idea: <span className="text-slate-400 font-normal">property ownership should feel clear, not overwhelming.</span> We synchronize how spaces are maintained, supplied, and lived in.
                 </h2>
               </div>
               {/* 3 Pristine Editorial White Cards */}
@@ -385,7 +414,7 @@ export default function Landing({ initialLoginOpen = false }) {
                 Experience effortless homeownership.
               </h2>
               <p className="text-sm sm:text-base text-slate-400 font-normal leading-relaxed mb-8 max-w-lg">
-                From emergency repairs to complete turnkey transformations, unify your entire property footprint on OneHome.
+                From emergency repairs to complete turnkey transformations, unify your entire property footprint on HouseServe.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <button onClick={() => isAuthenticated ? setActiveView("houserve") : setOpenLogin(true)} className="w-full sm:w-auto px-7 py-3 rounded-xl bg-white text-slate-950 text-xs font-semibold hover:bg-slate-100 transition-colors shadow-sm cursor-pointer">
@@ -410,7 +439,7 @@ export default function Landing({ initialLoginOpen = false }) {
                 <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center text-white">
                   <span className="material-symbols-outlined text-[16px]">roofing</span>
                 </div>
-                <span className="font-display font-bold text-base text-slate-950">OneHome</span>
+                <span className="font-display font-bold text-base text-slate-950">HouseServe</span>
               </div>
               <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
                 Unified property ecosystem syncing certified mechanical labor, architectural procurement, and authenticated title transfers across modern Indian metros.
@@ -445,7 +474,7 @@ export default function Landing({ initialLoginOpen = false }) {
             </div>
           </div>
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-            <span>© 2025 OneHome Technologies Pvt. Ltd. Minimal editorial architecture.</span>
+            <span>© 2025 HouseServe Technologies Pvt. Ltd. Minimal editorial architecture.</span>
             <div className="flex items-center gap-6">
               <a className="hover:text-slate-600 transition-colors" href="#">Status</a>
               <a className="hover:text-slate-600 transition-colors" href="#">Security</a>
@@ -476,6 +505,15 @@ export default function Landing({ initialLoginOpen = false }) {
           <span className="text-[10px] font-medium tracking-wide">Properties</span>
         </button>
       </nav>
+
+      {/* Global Manage Listings Modal */}
+      {openManageListings && (
+        <ManageListingsModal
+          onClose={() => setOpenManageListings(false)}
+          onPropertyDeleted={() => {}}
+          onOpenLogin={() => setOpenLogin(true)}
+        />
+      )}
     </div>
   );
 }
