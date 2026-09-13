@@ -35,20 +35,20 @@ export default function Landing({ initialLoginOpen = false }) {
   return (
     <div className="bg-[#f8fafc] text-slate-900 selection:bg-slate-900 selection:text-white font-sans min-h-screen">
       {/* TOP APP BAR */}
-      <header className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg' : 'bg-transparent border-b border-transparent'}`}>
+      <header className="sticky top-0 z-[120] bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 h-18 py-4 flex items-center justify-between">
           <div className="flex items-center gap-10">
-            <button onClick={() => setActiveView("overview")} className={`flex items-center gap-3 group cursor-pointer ${scrolled ? 'text-white' : 'text-slate-900'}`}>
-              <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white shadow-sm">
-                <span className="material-symbols-outlined text-[18px]">roofing</span>
+            <button onClick={() => setActiveView("overview")} className="flex items-center gap-3 group cursor-pointer text-slate-900">
+              <div className="relative w-8 h-8 rounded-lg bg-transparent shadow-sm flex items-center justify-center overflow-hidden">
+                <img src="/Assets/LOGO.png" alt="HouseServe Logo" className="w-full h-full object-contain" />
               </div>
               <span className="font-display font-bold text-lg tracking-tight">HouseServe</span>
             </button>
-            <nav className={`hidden md:flex items-center gap-7 text-[14px] font-medium ${scrolled ? 'text-slate-300' : 'text-slate-600'}`}>
-              <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Overview</button>
-              <button onClick={() => setActiveView("houserve")} className={`transition-colors cursor-pointer ${activeView === "houserve" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Houserve</button>
-              <a href="https://build-kart-in-is6v.vercel.app/" target="_blank" rel="noopener noreferrer" className={`transition-colors cursor-pointer font-medium ${scrolled ? "hover:text-white" : "hover:text-slate-950"}`}>BuildKart</a>
-              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? (scrolled ? "text-white font-bold border-b-2 border-white pb-0.5" : "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5") : (scrolled ? "hover:text-white" : "hover:text-slate-950")}`}>Properties</button>
+            <nav className="hidden md:flex items-center gap-7 text-[14px] font-medium text-slate-600">
+              <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Overview</button>
+              <button onClick={() => setActiveView("houserve")} className={`transition-colors cursor-pointer ${activeView === "houserve" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Houserve</button>
+              <a href="https://build-kart-in-is6v.vercel.app/" target="_blank" rel="noopener noreferrer" className={`transition-colors cursor-pointer font-medium hover:text-slate-950`}>BuildKart</a>
+              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Properties</button>
             </nav>
           </div>
           <div className="flex items-center gap-3 relative">
