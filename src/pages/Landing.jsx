@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Properties from "./Properties";
+import Rentals from "./Rentals";
 import { useAuth } from "../context/AuthContext";
 import ManageListingsModal from "../components/ManageListingsModal";
 
@@ -48,7 +49,8 @@ export default function Landing({ initialLoginOpen = false }) {
               <button onClick={() => setActiveView("overview")} className={`transition-colors cursor-pointer ${activeView === "overview" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Overview</button>
               <button onClick={() => setActiveView("houserve")} className={`transition-colors cursor-pointer ${activeView === "houserve" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Houserve</button>
               <a href="https://build-kart-in-is6v.vercel.app/" target="_blank" rel="noopener noreferrer" className={`transition-colors cursor-pointer font-medium hover:text-slate-950`}>BuildKart</a>
-              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Properties</button>
+              <button onClick={() => setActiveView("properties")} className={`transition-colors cursor-pointer ${activeView === "properties" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Buy</button>
+              <button onClick={() => setActiveView("rentals")} className={`transition-colors cursor-pointer ${activeView === "rentals" ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-0.5" : "hover:text-slate-950"}`}>Rent</button>
             </nav>
           </div>
           <div className="flex items-center gap-3 relative">
@@ -91,6 +93,11 @@ export default function Landing({ initialLoginOpen = false }) {
 
       {activeView === "properties" ? (
         <Properties
+          onBack={() => setActiveView("overview")}
+          onOpenLogin={() => setOpenLogin(true)}
+        />
+      ) : activeView === "rentals" ? (
+        <Rentals
           onBack={() => setActiveView("overview")}
           onOpenLogin={() => setOpenLogin(true)}
         />
@@ -502,7 +509,11 @@ export default function Landing({ initialLoginOpen = false }) {
         </a>
         <button onClick={() => setActiveView("properties")} className={`flex flex-col items-center gap-1 ${activeView === "properties" ? "text-slate-950 font-bold" : "text-slate-500 hover:text-slate-900"}`}>
           <span className="material-symbols-outlined text-[20px]">apartment</span>
-          <span className="text-[10px] font-medium tracking-wide">Properties</span>
+          <span className="text-[10px] font-medium tracking-wide">Buy</span>
+        </button>
+        <button onClick={() => setActiveView("rentals")} className={`flex flex-col items-center gap-1 ${activeView === "rentals" ? "text-slate-950 font-bold" : "text-slate-500 hover:text-slate-900"}`}>
+          <span className="material-symbols-outlined text-[20px]">key</span>
+          <span className="text-[10px] font-medium tracking-wide">Rent</span>
         </button>
       </nav>
 

@@ -29,11 +29,11 @@ export default function Sidebar({ currentView, setCurrentView, theme, onLogout, 
                     }}
                 >
                     <div className="w-10 h-10 rounded-xl bg-transparent flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-                        <img src="/Assets/LOGO.png" alt="VideoScrub Logo" className="w-full h-full object-contain" />
+                        <img src="/Assets/LOGO.png" alt="Houserve Logo" className="w-full h-full object-contain" />
                     </div>
                     <div className="hidden lg:flex flex-col">
                         <span className="font-display font-bold text-xl leading-tight text-[#0f172a]">
-                            VideoScrub<span className="text-[#0f172a] font-sans not-italic font-bold">.</span>
+                            Houserve<span className="text-[#0f172a] font-sans not-italic font-bold">.</span>
                         </span>
                         <span className="text-[10px] tracking-wider uppercase font-semibold text-[#45464d]">
                             Delhi NCR

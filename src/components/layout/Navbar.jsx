@@ -14,10 +14,10 @@ export default function Navbar({ location, toggleTheme, theme, setCurrentView, u
               }}
             >
                 <div className="relative w-10 h-10 rounded-full bg-transparent shadow-sm shrink-0 flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden">
-                    <img src="/Assets/LOGO.png" alt="VideoScrub Logo" className="w-full h-full object-contain" />
+                    <img src="/Assets/LOGO.png" alt="Houserve Logo" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex flex-col min-w-0">
-                    <h2 className={`text-base font-bold tracking-tight ${colors.text}`}>VideoScrub</h2>
+                    <h2 className={`text-base font-bold tracking-tight ${colors.text}`}>Houserve</h2>
                     <div className="hidden lg:flex items-center gap-2 mt-0.5">
                         <div className={`w-1.5 h-1.5 rounded-full ${location === 'Detecting...' ? 'bg-slate-400' : 'bg-emerald-500'} animate-pulse`}></div>
                         <span className={`text-[9px] uppercase tracking-[0.15em] font-mono font-medium truncate ${colors.subtext}`}>{location}</span>
