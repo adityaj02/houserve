@@ -74,6 +74,38 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
     }
   }, [user]);
 
+  // Compress an image File to a base64 JPEG string (max 1200px, 70% quality)
+  const compressImage = (file) =>
+    new Promise((resolve, reject) => {
+      const MAX_PX = 1200;
+      const QUALITY = 0.72;
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (evt) => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > MAX_PX || height > MAX_PX) {
+            if (width > height) {
+              height = Math.round((height * MAX_PX) / width);
+              width = MAX_PX;
+            } else {
+              width = Math.round((width * MAX_PX) / height);
+              height = MAX_PX;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", QUALITY));
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -445,19 +477,26 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files && e.target.files[0];
                       if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
+                        // Guard: reject files over 15 MB before even compressing
+                        if (file.size > 15 * 1024 * 1024) {
+                          setErrorMsg("Image too large. Please choose a file under 15 MB.");
+                          return;
+                        }
+                        setErrorMsg("");
+                        try {
+                          const compressed = await compressImage(file);
                           setFormData((prev) => ({
                             ...prev,
-                            uploadedFileUrl: event.target.result,
+                            uploadedFileUrl: compressed,
                             uploadedFileName: file.name,
                             customImageUrl: ""
                           }));
-                        };
-                        reader.readAsDataURL(file);
+                        } catch {
+                          setErrorMsg("Failed to process image. Please try a different file.");
+                        }
                       }
                     }}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -469,7 +508,7 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
                     Click to browse or drop property image here
                   </p>
                   <p className="text-[11px] text-slate-400 mt-1 font-medium">
-                    Supports PNG, JPG, WEBP (Max 10MB)
+                    Supports PNG, JPG, WEBP · Auto-compressed before upload
                   </p>
                 </div>
               )}
