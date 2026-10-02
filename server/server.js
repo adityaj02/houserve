@@ -61,11 +61,15 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.info("MongoDB connected");
-    app.listen(PORT, () => {
-      console.info(`Server running on port ${PORT}`);
-    });
+    // Only listen if not running in a serverless environment like Vercel
+    if (process.env.NODE_ENV !== 'production' || process.env.RENDER) {
+      app.listen(PORT, () => {
+        console.info(`Server running on port ${PORT}`);
+      });
+    }
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error.message);
-    process.exit(1);
   });
+
+module.exports = app;

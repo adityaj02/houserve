@@ -8,8 +8,14 @@ export const getApiBase = () => {
   if (url && url.trim() !== "") {
     return url.replace(/\/+$/, "");
   }
-  // Local development fallback
-  return "http://localhost:5000";
+  
+  // If running locally, hit the local backend
+  if (import.meta.env.DEV) {
+    return "http://localhost:5000";
+  }
+  
+  // In production (Vercel), hit the same origin (handled by vercel.json)
+  return "";
 };
 
 const API_BASE = getApiBase();
