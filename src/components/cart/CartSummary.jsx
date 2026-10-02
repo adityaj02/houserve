@@ -190,31 +190,31 @@ export default function CartSummary({
         setLocalError("");
 
         if (cartItems.length === 0) return setLocalError("Your cart is empty.");
-        if (!selectedDate || !selectedTime || !resolvedAddress || !addressDetails.name || !addressDetails.contact) {
-            return setLocalError("Missing booking details. Please complete all steps.");
+        if (!selectedDate || !selectedTime) return setLocalError("Please select a date and time.");
+        if (!addressDetails.name?.trim()) return setLocalError("Please enter your name.");
+        if (!addressDetails.contact?.trim()) return setLocalError("Please enter your contact number.");
+
+        const fullAddress = `${resolvedAddress || 'Delhi NCR'}, ${addressDetails.city || 'Delhi NCR'} - ${addressDetails.pincode || ''}`;
+        
+        // Open WhatsApp FIRST — this always works regardless of backend
+        openWhatsApp();
+
+        // Fire-and-forget: save to DB in background (silently fails if backend is offline)
+        try {
+            await onConfirmBooking?.({
+                date: selectedDate,
+                time: selectedTime,
+                address: fullAddress,
+                name: addressDetails.name,
+                contact: addressDetails.contact
+            });
+        } catch {
+            // Backend offline — booking already sent via WhatsApp
         }
-        
-        const fullAddress = `${resolvedAddress}, ${addressDetails.city} - ${addressDetails.pincode}`;
-        
-        const res = await onConfirmBooking?.({ 
-            date: selectedDate, 
-            time: selectedTime, 
-            address: fullAddress, 
-            name: addressDetails.name, 
-            contact: addressDetails.contact 
-        });
-        
-        if (res?.error) {
-            setLocalError(res.error);
-        } else {
-            // Open WhatsApp instantly
-            openWhatsApp(res?.metadata);
-            
-            // Optionally clear the cart since booking was sent to WhatsApp
-            if (typeof onClearAll === 'function') {
-                onClearAll();
-                if (typeof setCurrentView === 'function') setCurrentView('home');
-            }
+
+        // Clear cart
+        if (typeof onClearAll === 'function') {
+            onClearAll();
         }
     };
 
