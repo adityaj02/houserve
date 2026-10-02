@@ -113,8 +113,8 @@ export async function fetchBlogBySlug(slug) {
 
 // ---------- Orders ----------
 
-export async function fetchOrders(email) {
-  const query = email ? `?email=${encodeURIComponent(email)}` : "";
+export async function fetchOrders(phone) {
+  const query = phone ? `?phone=${encodeURIComponent(phone)}` : "";
   return request(`/api/orders${query}`);
 }
 

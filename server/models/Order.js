@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema(
       unique: true,
       default: () => `ORD-${Date.now()}-${crypto.randomBytes(3).toString("hex").toUpperCase()}`,
     },
-    userId: { type: String, required: true },
+    userId: { type: String, required: false },
     serviceId: { type: String, default: "" },
     serviceName: { type: String, default: "" },
     status: {
@@ -20,6 +20,8 @@ const orderSchema = new mongoose.Schema(
     scheduledTime: { type: String, default: null },
     address: { type: String, default: null },
     userEmail: { type: String, default: "" },
+    userPhone: { type: String, default: "" },
+    userName: { type: String, default: "" },
     paymentMethod: { type: String, default: "" },
   },
   { timestamps: true }

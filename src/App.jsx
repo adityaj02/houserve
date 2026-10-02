@@ -1,13 +1,9 @@
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import Landing from "./pages/Landing";
-import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
-
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
+import Profile from "./pages/Profile";
 
 function AppRoutes() {
   const { isAuthenticated, profileComplete, loading } = useAuth();
@@ -26,21 +22,11 @@ function AppRoutes() {
 }
 
 export default function App() {
-  const content = (
+  return (
     <BrowserRouter>
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>
     </BrowserRouter>
   );
-
-  if (GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID.trim() !== "") {
-    return (
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        {content}
-      </GoogleOAuthProvider>
-    );
-  }
-
-  return content;
 }

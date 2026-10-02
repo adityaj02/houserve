@@ -3,11 +3,14 @@ const router = express.Router();
 const Order = require("../models/Order");
 const { authMiddleware } = require("../middleware/auth");
 
-// GET /api/orders?email= — get orders by user email
-router.get("/", authMiddleware, async (req, res) => {
+// GET /api/orders?phone= — get orders by user phone
+router.get("/", async (req, res) => {
   try {
-    const { email } = req.query;
-    const filter = email ? { userEmail: email } : { userId: req.user.userId };
+    const { phone } = req.query;
+    if (!phone) {
+      return res.status(200).json([]);
+    }
+    const filter = { userPhone: phone };
     const orders = await Order.find(filter).sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (err) {
@@ -28,17 +31,10 @@ router.get("/count", async (_req, res) => {
 });
 
 // POST /api/orders — create order(s), supports bulk insert
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const rows = Array.isArray(req.body) ? req.body : [req.body];
-
-    // Attach userId from JWT to each row
-    const enriched = rows.map((row) => ({
-      ...row,
-      userId: req.user.userId,
-    }));
-
-    const inserted = await Order.insertMany(enriched);
+    const inserted = await Order.insertMany(rows);
     res.status(201).json(inserted);
   } catch (err) {
     console.error("Order create failed:", err.message);

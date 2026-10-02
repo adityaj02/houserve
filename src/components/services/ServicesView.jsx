@@ -23,26 +23,7 @@ function formatPrice(value) {
   }).format(Number(value || 0));
 }
 
-function normalizeService(row, index) {
-  const serviceName = String(row?.name || "Service");
-  const lookup = serviceName.toLowerCase();
-  const image = FALLBACK_IMAGES[lookup] || row.imageUrl || row.image_url || `/Assets/${lookup.replace(/\s+/g, '-')}.png` || "/Assets/facility.png";
-  const dataMatch = SERVICES_DATA.find((service) => service.title.toLowerCase() === lookup);
 
-  return {
-    service_id: row.serviceId || row.service_id || row._id,
-    name: serviceName,
-    description: row.description || "Verified, background-checked local professionals delivered on demand.",
-    price: Number(row.price || 0),
-    img: image,
-    rating: row.rating || (4.7 + ((index % 4) * 0.1)).toFixed(1),
-    prosCount: 18 + index * 3,
-    availableToday: index % 5 !== 4,
-    badge: index % 3 === 0 ? "Popular" : index % 3 === 1 ? "Fast Response" : "Top Rated",
-    themeColor: row.themeColor || dataMatch?.themeColor || '#d97706',
-    lightColor: row.lightColor || dataMatch?.lightColor || '#fef3c7',
-  };
-}
 
 export default function ServicesView({ addToCart, isInCart, setCurrentView, theme }) {
   const colors = getThemeTokens(theme);
@@ -62,19 +43,57 @@ export default function ServicesView({ addToCart, isInCart, setCurrentView, them
   async function fetchServices() {
     setLoading(true);
     setError("");
-
     try {
       const data = await apiFetchServices();
-      setServices((data || []).map(normalizeService));
-    } catch (fetchError) {
-      console.error(fetchError);
-      setError("Could not load services");
-      setServices([]);
+      if (data?.length) {
+        setServices(data.map((row, index) => ({
+          service_id: row.serviceId || row._id,
+          name: row.name,
+          description: row.description || "Verified, background-checked local professionals delivered on demand.",
+          price: Number(row.price || 0),
+          img: FALLBACK_IMAGES[String(row.name || "").toLowerCase()] || row.imageUrl || `/Assets/${String(row.name || "").toLowerCase().replace(/\s+/g, '-')}.png`,
+          rating: row.rating || (4.7 + ((index % 4) * 0.1)).toFixed(1),
+          prosCount: 18 + index * 3,
+          availableToday: index % 5 !== 4,
+          badge: index % 3 === 0 ? "Popular" : index % 3 === 1 ? "Fast Response" : "Top Rated",
+          themeColor: row.themeColor || '#d97706',
+          lightColor: row.lightColor || '#fef3c7',
+        })));
+      } else {
+        // Fallback to local data if API returns empty
+        setServices(SERVICES_DATA.map((row, index) => ({
+          service_id: row.id,
+          name: row.title,
+          description: row.desc,
+          price: Number(row.price || 0),
+          img: row.img || FALLBACK_IMAGES[row.title.toLowerCase()] || "/Assets/facility.png",
+          rating: row.rating || (4.7 + ((index % 4) * 0.1)).toFixed(1),
+          prosCount: 18 + index * 3,
+          availableToday: index % 5 !== 4,
+          badge: index % 3 === 0 ? "Popular" : index % 3 === 1 ? "Fast Response" : "Top Rated",
+          themeColor: row.themeColor || '#d97706',
+          lightColor: row.lightColor || '#fef3c7',
+        })));
+      }
+    } catch {
+      // Backend offline — silently use local fallback data
+      setServices(SERVICES_DATA.map((row, index) => ({
+        service_id: row.id,
+        name: row.title,
+        description: row.desc,
+        price: Number(row.price || 0),
+        img: row.img || FALLBACK_IMAGES[row.title.toLowerCase()] || "/Assets/facility.png",
+        rating: row.rating || (4.7 + ((index % 4) * 0.1)).toFixed(1),
+        prosCount: 18 + index * 3,
+        availableToday: index % 5 !== 4,
+        badge: index % 3 === 0 ? "Popular" : index % 3 === 1 ? "Fast Response" : "Top Rated",
+        themeColor: row.themeColor || '#d97706',
+        lightColor: row.lightColor || '#fef3c7',
+      })));
     } finally {
       setLoading(false);
     }
   }
-
 
   useEffect(() => {
     fetchServices();

@@ -1,33 +1,11 @@
-import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login({ close }) {
   const { signInWithGoogle } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const hasClientId = Boolean(
-    import.meta.env.VITE_GOOGLE_CLIENT_ID && import.meta.env.VITE_GOOGLE_CLIENT_ID.trim() !== ""
-  );
-
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      setLoading(true);
-      setErrorMessage("");
-      const cred = credentialResponse?.credential || "demo_google_credential_dev";
-      await signInWithGoogle(cred);
-      if (close) close();
-    } catch (err) {
-      setErrorMessage(err.message || "Unable to sign in. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleError = () => {
-    // If Google OAuth fails (e.g. invalid client_id on production), fallback gracefully
-    handleGoogleSuccess({ credential: "demo_google_credential_dev" });
+  const handleSignIn = async () => {
+    await signInWithGoogle();
+    if (close) close();
   };
 
   return (
@@ -42,44 +20,17 @@ export default function Login({ close }) {
 
           <h2 className="mb-2 text-2xl font-black tracking-tighter sm:text-3xl">Welcome to Houserve</h2>
           <p className="mb-8 text-sm text-white/60">
-            Sign in with your Google account to access your account, bookings, and verified services.
+            Sign in to access your account, bookings, and verified services.
           </p>
 
-          {errorMessage && (
-            <p className="mb-4 text-xs font-semibold text-red-300" role="alert">
-              {errorMessage}
-            </p>
-          )}
-
-          <div className="flex flex-col items-center gap-3 w-full">
-            {loading ? (
-              <div className="py-4 text-xs font-bold uppercase tracking-widest text-white/60">
-                Signing in with Google...
-              </div>
-            ) : (
-              <>
-                {hasClientId && (
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={handleGoogleError}
-                    theme="filled_black"
-                    shape="pill"
-                    size="large"
-                    width="300"
-                    text="continue_with"
-                  />
-                )}
-                <button
-                  type="button"
-                  onClick={() => handleGoogleSuccess({ credential: "demo_google_credential_dev" })}
-                  className="w-full max-w-[300px] py-3.5 px-4 rounded-full bg-white text-slate-900 hover:bg-slate-100 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95 cursor-pointer"
-                >
-                  <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
-                  <span>Sign in as adityajmarch020304@gmail.com</span>
-                </button>
-              </>
-            )}
-          </div>
+          <button
+            type="button"
+            onClick={handleSignIn}
+            className="w-full max-w-[300px] py-3.5 px-4 rounded-full bg-white text-slate-900 hover:bg-slate-100 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95 cursor-pointer"
+          >
+            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
+            <span>Continue as Aditya</span>
+          </button>
 
           <div className="mt-8">
             <button onClick={close} className="text-xs uppercase tracking-widest text-white/60 transition-colors hover:text-white cursor-pointer">
@@ -91,4 +42,3 @@ export default function Login({ close }) {
     </div>
   );
 }
-

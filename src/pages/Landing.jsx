@@ -56,7 +56,7 @@ export default function Landing({ initialLoginOpen = false }) {
           <div className="flex items-center gap-3 relative">
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
-                <button onClick={() => setActiveView("houserve")} className="px-4 py-1.5 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600 transition-colors shadow-sm cursor-pointer flex items-center gap-1.5">
+                <button onClick={() => setActiveView("houserve")} className="px-4 py-1.5 rounded-xl bg-slate-950 text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm cursor-pointer flex items-center gap-1.5">
                   <span>Houserve Pro</span>
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
@@ -147,7 +147,7 @@ export default function Landing({ initialLoginOpen = false }) {
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
                     <span className="text-slate-400">Houserve Labor</span>
-                    <button onClick={() => setActiveView("houserve")} className="font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 cursor-pointer">Master Trades →</button>
+                    <span className="font-semibold inline-flex items-center gap-1">Master Trades →</span>
                   </div>
                 </div>
                 {/* Card 2 */}
@@ -163,7 +163,7 @@ export default function Landing({ initialLoginOpen = false }) {
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
                     <span className="text-slate-400">BuildCart Logistics</span>
-                    <span className="font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">Direct Supply →</span>
+                    <span className="font-semibold inline-flex items-center gap-1">Direct Supply →</span>
                   </div>
                 </div>
                 {/* Card 3 */}
@@ -179,7 +179,7 @@ export default function Landing({ initialLoginOpen = false }) {
                   </div>
                   <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
                     <span className="text-slate-400">Title Escrow</span>
-                    <span className="font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">Verified Portfolios →</span>
+                    <span className="font-semibold inline-flex items-center gap-1">Verified Portfolios →</span>
                   </div>
                 </div>
               </div>

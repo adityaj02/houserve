@@ -66,12 +66,14 @@ export default function CartSummary({
         try {
             const stored = localStorage.getItem("checkout_address_details");
             return stored ? JSON.parse(stored) : {
+                name: profile?.name || "",
+                contact: profile?.phone || "",
                 address: profile?.location || "",
-                city: "New Delhi",
+                city: "Delhi NCR",
                 pincode: ""
             };
         } catch {
-            return { address: "", city: "New Delhi", pincode: "" };
+            return { name: "", contact: "", address: "", city: "Delhi NCR", pincode: "" };
         }
     });
     const [paymentMethod, setPaymentMethod] = useState("pay_on_service");
@@ -157,6 +159,8 @@ export default function CartSummary({
         }
 
         if (checkoutStep === 2) {
+            if (!addressDetails.name?.trim()) return setLocalError("Please enter your name.");
+            if (!addressDetails.contact?.trim()) return setLocalError("Please enter your contact number.");
             if (!resolvedAddress.trim()) return setLocalError("Please enter your complete service address.");
             if (!addressDetails.pincode.trim()) return setLocalError("Pincode is required.");
             setCheckoutStep(3);
@@ -164,34 +168,21 @@ export default function CartSummary({
     };
 
     const openWhatsApp = (customMeta = null) => {
-        const meta = customMeta || bookingMetadata;
-        const bookingId = meta?.order_id || meta?.id || meta?._id || 'PENDING';
-        const serviceNames = cartItems.map((item) => item.name || item.title).filter(Boolean).join(', ') || meta?.cart_items?.map(i => i.name || i.title).filter(Boolean).join(', ') || meta?.service_name || 'Houserve Pro Service';
-        const date = meta?.date || selectedDate || 'Flexible';
-        const time = meta?.time || selectedTime || '10:00 AM';
-        const cityStr = addressDetails.city ? `, ${addressDetails.city}` : '';
-        const pinStr = addressDetails.pincode ? ` - ${addressDetails.pincode}` : '';
-        const fullAddress = `${resolvedAddress}${cityStr}${pinStr}`;
-        const address = meta?.address || fullAddress || profile?.location || 'Address on file';
-        const price = meta?.total_price ? `₹${meta.total_price}` : formatCurrency(totalPrice);
-        const name = profile?.name || 'Valued Customer';
-        const phone = profile?.phone || 'On file';
+        const serviceNames = cartItems.map((item) => item.name || item.title).filter(Boolean).join(', ');
+        const date = selectedDate || 'Flexible';
+        const time = selectedTime || '10:00 AM';
+        const fullAddress = `${resolvedAddress}, ${addressDetails.city} - ${addressDetails.pincode}`;
+        const price = formatCurrency(totalPrice);
+        
+        const name = addressDetails.name || 'Valued Customer';
+        const phone = addressDetails.contact || 'Not provided';
         const email = profile?.email || '';
+        
+        const bookingMessage = `New Booking - ${serviceNames} at ${fullAddress}. Scheduled for ${date} ${time}. Total: ${price}. Payment: ${paymentMethod === 'pay_on_service' ? 'Pay After Service' : paymentMethod === 'upi' ? 'UPI' : 'Card'}.`;
 
-        const message = `🚨 *NEW HOUSERVE BOOKING REQUEST* 🚨\n\n` +
-            `👤 *Customer Name:* ${name}\n` +
-            `📞 *Contact Number:* ${phone}\n` +
-            (email ? `✉️ *Email:* ${email}\n` : '') +
-            `📍 *Location:* ${address}\n\n` +
-            `🛠️ *Service(s) Booked:* ${serviceNames}\n` +
-            `💰 *Total Price:* ${price}\n` +
-            `📅 *Scheduled Date:* ${date}\n` +
-            `⏰ *Scheduled Time:* ${time}\n` +
-            `💳 *Payment Method:* ${paymentMethod === 'pay_on_service' ? 'Pay After Service' : paymentMethod === 'upi' ? 'UPI' : 'Card'}\n` +
-            `🆔 *Booking ID:* #${String(bookingId).slice(0, 8).toUpperCase()}\n\n` +
-            `Please confirm technician dispatch to this location.`;
+        const message = `Hi Tech@Work!\n\nI'm reaching out from your website contact form.\n\n*Name:* ${name}\n*Email:* ${email || 'N/A'}\n*Contact Number:* ${phone}\n*Message:* ${bookingMessage}`;
 
-        const url = `https://wa.me/919811797407?text=${encodeURIComponent(message)}`;
+        const url = `https://api.whatsapp.com/send/?phone=919811797407&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
@@ -199,20 +190,34 @@ export default function CartSummary({
         setLocalError("");
 
         if (cartItems.length === 0) return setLocalError("Your cart is empty.");
-        if (!selectedDate || !selectedTime || !resolvedAddress) return setLocalError("Missing booking details. Please complete date, time and address.");
-
-        const cityStr = addressDetails.city ? `, ${addressDetails.city}` : '';
-        const pinStr = addressDetails.pincode ? ` - ${addressDetails.pincode}` : '';
-        const fullAddress = `${resolvedAddress}${cityStr}${pinStr}`;
+        if (!selectedDate || !selectedTime || !resolvedAddress || !addressDetails.name || !addressDetails.contact) {
+            return setLocalError("Missing booking details. Please complete all steps.");
+        }
         
-        const res = await onConfirmBooking?.({ date: selectedDate, time: selectedTime, address: fullAddress, paymentMethod });
+        const fullAddress = `${resolvedAddress}, ${addressDetails.city} - ${addressDetails.pincode}`;
+        
+        const res = await onConfirmBooking?.({ 
+            date: selectedDate, 
+            time: selectedTime, 
+            address: fullAddress, 
+            name: addressDetails.name, 
+            contact: addressDetails.contact 
+        });
+        
         if (res?.error) {
             setLocalError(res.error);
         } else {
-            // Instantly open WhatsApp with complete booking details pinned to owner
+            // Open WhatsApp instantly
             openWhatsApp(res?.metadata);
+            
+            // Optionally clear the cart since booking was sent to WhatsApp
+            if (typeof onClearAll === 'function') {
+                onClearAll();
+                if (typeof setCurrentView === 'function') setCurrentView('home');
+            }
         }
     };
+
 
     if (bookingSuccess) {
         return (
@@ -453,6 +458,29 @@ export default function CartSummary({
                         </div>
 
                         <div className="space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex flex-col">
+                                    <span className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Full Name</span>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. Aditya Jha"
+                                        value={addressDetails.name || ''}
+                                        onChange={(e) => setAddressDetails((prev) => ({ ...prev, name: e.target.value }))}
+                                        className="bg-transparent outline-none font-semibold text-sm text-slate-950"
+                                    />
+                                </div>
+                                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex flex-col">
+                                    <span className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Contact Number</span>
+                                    <input
+                                        type="tel"
+                                        placeholder="+91..."
+                                        value={addressDetails.contact || ''}
+                                        onChange={(e) => setAddressDetails((prev) => ({ ...prev, contact: e.target.value }))}
+                                        className="bg-transparent outline-none font-semibold text-sm text-slate-950"
+                                    />
+                                </div>
+                            </div>
+
                             <textarea
                                 value={resolvedAddress}
                                 onChange={(e) => setAddressDetails((prev) => ({ ...prev, address: e.target.value }))}
@@ -462,13 +490,13 @@ export default function CartSummary({
                             />
                             
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex flex-col">
-                                    <span className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">City</span>
+                                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col cursor-not-allowed">
+                                    <span className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">City / Region</span>
                                     <input
                                         type="text"
-                                        value={addressDetails.city}
-                                        onChange={(e) => setAddressDetails((prev) => ({ ...prev, city: e.target.value }))}
-                                        className="bg-transparent outline-none font-semibold text-sm text-slate-950"
+                                        value="Delhi NCR"
+                                        disabled
+                                        className="bg-transparent outline-none font-semibold text-sm text-slate-500 cursor-not-allowed"
                                     />
                                 </div>
                                 <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex flex-col">
