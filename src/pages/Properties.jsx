@@ -396,7 +396,7 @@ export default function Properties({ onBack, onOpenLogin }) {
                     </div>
 
                     {/* Content Section */}
-                    <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-5">
+                    <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col gap-6">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between text-xs text-slate-500 uppercase tracking-wider font-semibold">
                           <span className="flex items-center gap-1.5">
@@ -418,7 +418,8 @@ export default function Properties({ onBack, onOpenLogin }) {
                         </p>
                       </div>
 
-                      {/* 3-Column Key Spec Grid */}
+                      <div className="mt-auto">
+                        {/* 3-Column Key Spec Grid */}
                       <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-center">
                         <div>
                           <span className="block text-xs font-semibold text-slate-900">

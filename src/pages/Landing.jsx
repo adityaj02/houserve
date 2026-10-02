@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../styles/global.css";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
@@ -12,6 +12,8 @@ export default function Landing({ initialLoginOpen = false }) {
   const [openManageListings, setOpenManageListings] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeView, setActiveView] = useState("overview");
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
   const auth = useAuth();
   const isAuthenticated = auth?.isAuthenticated;
   const signOut = auth?.signOut;
@@ -28,6 +30,18 @@ export default function Landing({ initialLoginOpen = false }) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+    if (userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [userMenuOpen]);
 
   if (activeView === "houserve") {
     return <Dashboard onBackToHouserve={() => setActiveView("overview")} />;
@@ -60,26 +74,32 @@ export default function Landing({ initialLoginOpen = false }) {
                   <span>Houserve Pro</span>
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
-                <div className="relative group">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all border bg-slate-900 border-slate-800 shadow-sm" aria-label="User menu">
+                <div className="relative" ref={userMenuRef}>
+                    <div
+                      onClick={() => setUserMenuOpen((v) => !v)}
+                      className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all border bg-slate-900 border-slate-800 shadow-sm select-none"
+                      aria-label="User menu"
+                    >
                         <span className="text-[12px] font-bold text-white">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
                         <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-sm"></div>
                     </div>
-                    <div className="absolute right-0 top-full mt-2 w-52 rounded-xl shadow-xl border border-slate-200/80 bg-white py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-200 z-[100] hidden lg:block backdrop-blur-xl">
-                        <button onClick={() => { setOpenManageListings(true); }} className="w-full text-left px-4 py-2.5 text-sm font-medium transition-colors text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[18px] text-slate-400">home_work</span>
-                          Manage My Listings
-                        </button>
-                        <hr className="my-1 border-t border-slate-100" />
-                        <button 
-                            type="button"
-                            onClick={signOut} 
-                            className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors cursor-pointer flex items-center gap-2"
-                        >
-                            <span className="material-symbols-outlined text-[18px]">logout</span>
-                            Log out
-                        </button>
-                    </div>
+                    {userMenuOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-52 rounded-xl shadow-xl border border-slate-200/80 bg-white py-2 z-[100] hidden lg:block backdrop-blur-xl">
+                          <button onClick={() => { setOpenManageListings(true); setUserMenuOpen(false); }} className="w-full text-left px-4 py-2.5 text-sm font-medium transition-colors text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
+                            <span className="material-symbols-outlined text-[18px] text-slate-400">home_work</span>
+                            Manage My Listings
+                          </button>
+                          <hr className="my-1 border-t border-slate-100" />
+                          <button 
+                              type="button"
+                              onClick={() => { signOut(); setUserMenuOpen(false); }} 
+                              className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors cursor-pointer flex items-center gap-2"
+                          >
+                              <span className="material-symbols-outlined text-[18px]">logout</span>
+                              Log out
+                          </button>
+                      </div>
+                    )}
                 </div>
               </div>
             ) : (
