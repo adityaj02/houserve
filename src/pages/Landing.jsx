@@ -80,7 +80,7 @@ export default function Landing({ initialLoginOpen = false }) {
                       className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all border bg-slate-900 border-slate-800 shadow-sm select-none"
                       aria-label="User menu"
                     >
-                        <span className="text-[12px] font-bold text-white">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+                        <span className="material-symbols-outlined text-[20px] text-white select-none">person</span>
                         <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-sm"></div>
                     </div>
                     {userMenuOpen && (
