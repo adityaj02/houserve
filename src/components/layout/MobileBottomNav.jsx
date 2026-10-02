@@ -7,7 +7,7 @@ export default function MobileBottomNav({ currentView, setCurrentView, theme, bo
         { id: "services", label: "Services", icon: "grid_view" },
         { id: "bookings", label: "Bookings", icon: "receipt_long", badge: bookingsCount },
         { id: "blog", label: "Blog", icon: "article" },
-        { id: "profile", label: "Profile", icon: "person" },
+        { id: "contact", label: "Contact", icon: "alternate_email" },
     ];
     const colors = getThemeTokens(theme);
 
