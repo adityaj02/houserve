@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function formatPrice(price) {
@@ -26,10 +26,11 @@ export default function PropertyDossierModal({ property, onClose, onOpenLogin })
     property.location?.city ? ` · ${property.location.city}` : ""
   }`;
 
-  const buyerName = user?.name || "Interested Buyer";
-  const buyerPhone = user?.phone || "Phone not provided";
-  const buyerEmail = user?.email || "Email not provided";
+  const [buyerName, setBuyerName] = useState("");
+  const [buyerPhone, setBuyerPhone] = useState("");
+  const [buyerEmail, setBuyerEmail] = useState("");
 
+  const isFormValid = buyerName.trim() && buyerPhone.trim() && buyerEmail.trim();
   // Build WhatsApp Inquiry Message URL sharing property & user details
   const whatsappMessage = `*ONEHOME PROPERTY DOSSIER & INQUIRY* 🏡
 
@@ -151,16 +152,34 @@ I would like to examine the verified title dossier and schedule an architectural
               </div>
             </div>
 
-            {/* Buyer Details */}
-            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+            {/* Buyer Details Form */}
+            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800">
                 <span className="material-symbols-outlined text-[16px] text-emerald-600">person_pin</span>
-                <span>Your Inquirer Details (Sharing)</span>
+                <span>Your Inquirer Details</span>
               </div>
-              <div className="space-y-0.5">
-                <div className="text-sm font-bold text-slate-950">{buyerName}</div>
-                <div className="text-xs text-slate-600">{buyerPhone}</div>
-                <div className="text-xs text-slate-600">{buyerEmail}</div>
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  placeholder="Your Full Name"
+                  value={buyerName}
+                  onChange={(e) => setBuyerName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-emerald-200/60 bg-white text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-400"
+                />
+                <input
+                  type="tel"
+                  placeholder="Your Contact Number"
+                  value={buyerPhone}
+                  onChange={(e) => setBuyerPhone(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-emerald-200/60 bg-white text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-400"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email Address"
+                  value={buyerEmail}
+                  onChange={(e) => setBuyerEmail(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-emerald-200/60 bg-white text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-400"
+                />
               </div>
             </div>
           </div>
@@ -179,10 +198,16 @@ I would like to examine the verified title dossier and schedule an architectural
               Close
             </button>
             <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm transition-colors cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto shrink-0"
+              href={isFormValid ? whatsappUrl : "#"}
+              target={isFormValid ? "_blank" : undefined}
+              rel={isFormValid ? "noopener noreferrer" : undefined}
+              onClick={(e) => {
+                if (!isFormValid) {
+                  e.preventDefault();
+                  alert("Please enter your Name, Phone, and Email to inquire.");
+                }
+              }}
+              className={`px-6 py-2.5 rounded-xl text-white text-xs font-semibold shadow-sm transition-colors flex items-center justify-center gap-2 w-full sm:w-auto shrink-0 ${isFormValid ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer' : 'bg-emerald-400 cursor-not-allowed opacity-80'}`}
             >
               <span className="material-symbols-outlined text-[18px]">chat</span>
               <span>Inquire via WhatsApp →</span>

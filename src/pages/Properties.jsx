@@ -574,12 +574,6 @@ export default function Properties({ onBack, onOpenLogin }) {
             >
               Initiate Title Audit &amp; List Free
             </button>
-            <button
-              type="button"
-              className="px-6 py-3 bg-slate-100 text-slate-900 text-xs font-semibold tracking-wide rounded-xl text-center hover:bg-slate-200 transition-colors border border-slate-200 cursor-pointer"
-            >
-              Escrow Calculator
-            </button>
           </div>
         </div>
       </section>

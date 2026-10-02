@@ -514,39 +514,6 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
               )}
             </div>
 
-            {/* Presets Gallery */}
-            <div>
-              <span className="block text-xs font-semibold text-slate-900 mb-2">
-                Or Select from Architectural Presets:
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {PRESET_IMAGES.map((img, i) => (
-                  <div
-                    key={i}
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        imageUrl: img.url,
-                        customImageUrl: "",
-                        uploadedFileUrl: "",
-                        uploadedFileName: ""
-                      }))
-                    }
-                    className={`relative rounded-xl overflow-hidden aspect-[4/3] cursor-pointer border-2 transition-all ${
-                      formData.imageUrl === img.url && !formData.customImageUrl && !formData.uploadedFileUrl
-                        ? "border-slate-950 ring-2 ring-slate-950/20 opacity-100"
-                        : "border-slate-200 opacity-60 hover:opacity-100"
-                    }`}
-                  >
-                    <img src={img.url} alt={img.name} className="w-full h-full object-cover" />
-                    <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 text-white text-[9px] font-semibold px-2 py-1 truncate">
-                      {img.name}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Custom URL Input */}
             <div>
               <label className="block text-xs font-semibold text-slate-900 mb-1.5">
