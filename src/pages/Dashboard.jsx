@@ -1177,9 +1177,9 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
                           <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-100">
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-full bg-[#0f172a] flex items-center justify-center font-bold text-xs text-white">
-                                {filteredBlogs[0].author[0]}
+                                {(filteredBlogs[0].author || 'H')[0]}
                               </div>
-                              <span className="text-xs font-bold text-slate-900">{filteredBlogs[0].author}</span>
+                              <span className="text-xs font-bold text-slate-900">{filteredBlogs[0].author || 'Houserve Team'}</span>
                             </div>
                             <span className="text-xs font-bold uppercase tracking-wider text-[#0f172a] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                               <span>Read article</span>
