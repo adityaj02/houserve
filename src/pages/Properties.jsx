@@ -457,32 +457,7 @@ export default function Properties({ onBack, onOpenLogin }) {
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={async () => {
-                              const sellerEmail = item.seller?.email;
-                              const userEmail = auth?.user?.email;
-
-                              if (auth?.isAuthenticated && userEmail && sellerEmail && sellerEmail.toLowerCase().trim() === userEmail.toLowerCase().trim()) {
-                                if (window.confirm(`Are you sure you want to delete "${item.title}"?`)) {
-                                  try {
-                                    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-                                    const res = await fetch(`${apiUrl}/api/properties/by-id/${item._id}?ownerEmail=${encodeURIComponent(userEmail)}`, {
-                                      method: "DELETE",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify({ ownerEmail: userEmail })
-                                    });
-                                    if (res.ok) {
-                                      handlePropertyDeleted(item._id);
-                                    } else {
-                                      alert("Failed to delete property.");
-                                    }
-                                  } catch (err) {
-                                    console.error("Direct delete error:", err);
-                                  }
-                                }
-                              } else {
-                                setShowManageModal(true);
-                              }
-                            }}
+                            onClick={() => setShowManageModal(true)}
                             className="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 border border-rose-200"
                             title="Delete or manage listing"
                           >
