@@ -94,17 +94,34 @@ router.put("/:slug", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/properties/my-listings — list properties by seller email
+// GET /api/properties/my-listings — list properties by seller email and phone
 router.get("/my-listings", async (req, res) => {
   try {
-    const { email } = req.query;
-    if (!email) {
-      return res.status(400).json({ error: "Seller email query parameter is required." });
+    const { email, phone } = req.query;
+    if (!email || !phone) {
+      return res.status(400).json({ error: "Seller email and phone query parameters are required." });
     }
 
     const properties = await Property.find({
-      "seller.email": new RegExp(`^${email.trim()}$`, "i")
+      "seller.email": new RegExp(`^${email.trim()}$`, "i"),
+      "seller.phone": new RegExp(`^\\+?${phone.trim().replace(/[^0-9]/g, '')}$`, "i") // Basic sanitization for matching
     }).sort({ createdAt: -1 });
+    
+    // If we couldn't match strict phone regex, try exact match as fallback
+    if (properties.length === 0) {
+      const fallbackProperties = await Property.find({
+         "seller.email": new RegExp(`^${email.trim()}$`, "i"),
+         "seller.phone": phone.trim()
+      }).sort({ createdAt: -1 });
+      
+      if (fallbackProperties.length > 0) {
+         return res.status(200).json(fallbackProperties);
+      }
+    }
+
+    if (properties.length === 0) {
+      return res.status(404).json({ error: "No active listings found for these credentials." });
+    }
 
     res.status(200).json(properties);
   } catch (err) {
@@ -113,22 +130,32 @@ router.get("/my-listings", async (req, res) => {
   }
 });
 
-// DELETE /api/properties/by-id/:id — delete property listing by ID (verifying seller email)
-router.delete("/by-id/:id", optionalAuth, async (req, res) => {
+// DELETE /api/properties/by-id/:id — delete property listing by ID (verifying seller email & phone)
+router.delete("/by-id/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const ownerEmail = req.body.ownerEmail || req.query.ownerEmail || (req.user && req.user.email);
+    const ownerEmail = req.body.ownerEmail || req.query.ownerEmail;
+    const ownerPhone = req.body.ownerPhone || req.query.ownerPhone;
+
+    if (!ownerEmail || !ownerPhone) {
+      return res.status(400).json({ error: "Owner email and phone are required for deletion." });
+    }
 
     const property = await Property.findById(id);
     if (!property) {
       return res.status(404).json({ error: "Property listing not found." });
     }
 
-    // Verify email if provided
-    if (ownerEmail && property.seller?.email) {
-      if (property.seller.email.toLowerCase().trim() !== ownerEmail.toLowerCase().trim()) {
-        return res.status(403).json({ error: "Unauthorized: Email does not match the property seller email." });
-      }
+    // Verify email and phone
+    const emailMatches = property.seller?.email?.toLowerCase().trim() === ownerEmail.toLowerCase().trim();
+    
+    // Loose phone matching (allow with/without spaces/pluses)
+    const storedPhone = (property.seller?.phone || "").replace(/[^0-9]/g, '');
+    const providedPhone = ownerPhone.replace(/[^0-9]/g, '');
+    const phoneMatches = storedPhone === providedPhone || property.seller?.phone === ownerPhone.trim();
+
+    if (!emailMatches || !phoneMatches) {
+      return res.status(403).json({ error: "Unauthorized: Email or phone does not match the property seller." });
     }
 
     await Property.findByIdAndDelete(id);

@@ -145,10 +145,6 @@ export default function Landing({ initialLoginOpen = false }) {
                       Information and service schedules are organized with transparent upfront line-items, so you always clearly know what matters now.
                     </p>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
-                    <span className="text-slate-400">Houserve Labor</span>
-                    <span className="font-semibold inline-flex items-center gap-1">Master Trades →</span>
-                  </div>
                 </div>
                 {/* Card 2 */}
                 <div className="group bg-white rounded-2xl p-7 lg:p-8 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.05)] hover:border-slate-300 transition-all flex flex-col justify-between">
@@ -161,10 +157,6 @@ export default function Landing({ initialLoginOpen = false }) {
                       Renovation requirements evolve. Site materials, architectural batches, and deliveries adjust with it, not work against you.
                     </p>
                   </div>
-                  <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
-                    <span className="text-slate-400">BuildCart Logistics</span>
-                    <span className="font-semibold inline-flex items-center gap-1">Direct Supply →</span>
-                  </div>
                 </div>
                 {/* Card 3 */}
                 <div className="group bg-white rounded-2xl p-7 lg:p-8 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.05)] hover:border-slate-300 transition-all flex flex-col justify-between">
@@ -176,10 +168,6 @@ export default function Landing({ initialLoginOpen = false }) {
                     <p className="text-[14px] leading-relaxed text-slate-500 font-normal">
                       Everything works together under one title guarantee, legal audit, and escrow ledger, so you move through transactions without friction.
                     </p>
-                  </div>
-                  <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-900">
-                    <span className="text-slate-400">Title Escrow</span>
-                    <span className="font-semibold inline-flex items-center gap-1">Verified Portfolios →</span>
                   </div>
                 </div>
               </div>
