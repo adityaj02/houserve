@@ -8,12 +8,8 @@ export const getApiBase = () => {
   if (url && url.trim() !== "") {
     return url.replace(/\/+$/, "");
   }
-  // In development with vite proxy, use empty string (same origin)
-  // In production (Vercel), also use empty string so there's no localhost:5000 request
-  if (import.meta.env.DEV) {
-    return "http://localhost:5000";
-  }
-  return "";
+  // Local development fallback
+  return "http://localhost:5000";
 };
 
 const API_BASE = getApiBase();
@@ -29,12 +25,6 @@ function authHeaders() {
 
 async function request(path, options = {}) {
   const base = getApiBase();
-
-  // No backend configured — throw immediately so callers use local fallback
-  if (base === "") {
-    throw new Error("No backend URL configured. Using local data.");
-  }
-
   const url = `${base}${path}`;
   let res;
 
