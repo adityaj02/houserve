@@ -418,63 +418,64 @@ export default function Properties({ onBack, onOpenLogin }) {
                         </p>
                       </div>
 
-                      <div className="mt-auto">
+                      <div className="mt-auto space-y-4">
                         {/* 3-Column Key Spec Grid */}
-                      <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-center">
-                        <div>
-                          <span className="block text-xs font-semibold text-slate-900">
-                            {item.specs?.areaSqFt ? `${item.specs.areaSqFt} sq.ft` : "1,200 sq.ft"}
-                          </span>
-                          <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Area</span>
-                        </div>
-                        <div>
-                          <span className="block text-xs font-semibold text-slate-900">
-                            {item.specs?.bedrooms ? `${item.specs.bedrooms} Bed / ${item.specs.bathrooms || 2} Bath` : "3 Bed / 2 Bath"}
-                          </span>
-                          <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Layout</span>
-                        </div>
-                        <div>
-                          <span className="block text-xs font-semibold text-slate-900 font-capitalize">
-                            {item.specs?.furnishedStatus || "Semi-Furnished"}
-                          </span>
-                          <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Status</span>
-                        </div>
-                      </div>
-
-                      {/* Footer Row: Owner Profile & Delete / Dossier Link */}
-                      <div className="flex items-center justify-between pt-1">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
-                            {sellerInitials}
+                        <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-center">
+                          <div>
+                            <span className="block text-xs font-semibold text-slate-900">
+                              {item.specs?.areaSqFt ? `${item.specs.areaSqFt} sq.ft` : "1,200 sq.ft"}
+                            </span>
+                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Area</span>
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-slate-900">{sellerName}</div>
-                            <div className="text-[10px] text-slate-400">
-                              {item.seller?.email ? item.seller.email : "Direct Owner"}
-                            </div>
+                            <span className="block text-xs font-semibold text-slate-900">
+                              {item.specs?.bedrooms ? `${item.specs.bedrooms} Bed / ${item.specs.bathrooms || 2} Bath` : "3 Bed / 2 Bath"}
+                            </span>
+                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Layout</span>
+                          </div>
+                          <div>
+                            <span className="block text-xs font-semibold text-slate-900">
+                              {item.specs?.furnishedStatus || "Semi-Furnished"}
+                            </span>
+                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-medium">Status</span>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setShowManageModal(true)}
-                            className="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 border border-rose-200"
-                            title="Delete or manage listing"
-                          >
-                            <span className="material-symbols-outlined text-[14px]">delete</span>
-                            <span>Delete</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setSelectedDossierProperty(item)}
-                            className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-950 text-slate-900 hover:text-white transition-all text-xs font-semibold inline-flex items-center gap-1 cursor-pointer group"
-                          >
-                            <span>Dossier</span>
-                            <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
-                              arrow_forward
-                            </span>
-                          </button>
+                        {/* Footer Row: Owner Profile & Delete / Dossier Link */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
+                              {sellerInitials}
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-slate-900">{sellerName}</div>
+                              <div className="text-[10px] text-slate-400">
+                                {item.seller?.email ? item.seller.email : "Direct Owner"}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setShowManageModal(true)}
+                              className="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 border border-rose-200"
+                              title="Delete or manage listing"
+                            >
+                              <span className="material-symbols-outlined text-[14px]">delete</span>
+                              <span>Delete</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedDossierProperty(item)}
+                              className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-950 text-slate-900 hover:text-white transition-all text-xs font-semibold inline-flex items-center gap-1 cursor-pointer group"
+                            >
+                              <span>Dossier</span>
+                              <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
+                                arrow_forward
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
