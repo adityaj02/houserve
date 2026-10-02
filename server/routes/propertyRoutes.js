@@ -41,6 +41,42 @@ router.get("/", optionalAuth, async (req, res) => {
   }
 });
 
+// GET /api/properties/my-listings — list properties by seller email and phone
+router.get("/my-listings", async (req, res) => {
+  try {
+    const { email, phone } = req.query;
+    if (!email || !phone) {
+      return res.status(400).json({ error: "Seller email and phone query parameters are required." });
+    }
+
+    const properties = await Property.find({
+      "seller.email": new RegExp(`^${email.trim()}$`, "i"),
+      "seller.phone": new RegExp(`^\\+?${phone.trim().replace(/[^0-9]/g, '')}$`, "i") // Basic sanitization for matching
+    }).sort({ createdAt: -1 });
+    
+    // If we couldn't match strict phone regex, try exact match as fallback
+    if (properties.length === 0) {
+      const fallbackProperties = await Property.find({
+         "seller.email": new RegExp(`^${email.trim()}$`, "i"),
+         "seller.phone": phone.trim()
+      }).sort({ createdAt: -1 });
+      
+      if (fallbackProperties.length > 0) {
+         return res.status(200).json(fallbackProperties);
+      }
+    }
+
+    if (properties.length === 0) {
+      return res.status(404).json({ error: "No active listings found for these credentials." });
+    }
+
+    res.status(200).json(properties);
+  } catch (err) {
+    console.error("Fetch my listings failed:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // GET /api/properties/:slug — single property
 router.get("/:slug", async (req, res) => {
   try {
@@ -94,41 +130,6 @@ router.put("/:slug", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/properties/my-listings — list properties by seller email and phone
-router.get("/my-listings", async (req, res) => {
-  try {
-    const { email, phone } = req.query;
-    if (!email || !phone) {
-      return res.status(400).json({ error: "Seller email and phone query parameters are required." });
-    }
-
-    const properties = await Property.find({
-      "seller.email": new RegExp(`^${email.trim()}$`, "i"),
-      "seller.phone": new RegExp(`^\\+?${phone.trim().replace(/[^0-9]/g, '')}$`, "i") // Basic sanitization for matching
-    }).sort({ createdAt: -1 });
-    
-    // If we couldn't match strict phone regex, try exact match as fallback
-    if (properties.length === 0) {
-      const fallbackProperties = await Property.find({
-         "seller.email": new RegExp(`^${email.trim()}$`, "i"),
-         "seller.phone": phone.trim()
-      }).sort({ createdAt: -1 });
-      
-      if (fallbackProperties.length > 0) {
-         return res.status(200).json(fallbackProperties);
-      }
-    }
-
-    if (properties.length === 0) {
-      return res.status(404).json({ error: "No active listings found for these credentials." });
-    }
-
-    res.status(200).json(properties);
-  } catch (err) {
-    console.error("Fetch my listings failed:", err.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
 
 // DELETE /api/properties/by-id/:id — delete property listing by ID (verifying seller email & phone)
 router.delete("/by-id/:id", async (req, res) => {
