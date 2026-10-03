@@ -10,7 +10,18 @@ router.get("/", optionalAuth, async (req, res) => {
     const filter = {};
 
     if (type) filter.type = type;
-    if (listingFor) filter.listingFor = listingFor;
+    if (listingFor) {
+      if (listingFor === "sale") {
+        // Also match docs where listingFor is missing (backward compat for old listings)
+        filter.$or = [
+          { listingFor: "sale" },
+          { listingFor: { $exists: false } },
+          { listingFor: null },
+        ];
+      } else {
+        filter.listingFor = listingFor;
+      }
+    }
     if (city) filter["location.city"] = new RegExp(city, "i");
     if (status) filter.status = status;
     if (minPrice || maxPrice) {
