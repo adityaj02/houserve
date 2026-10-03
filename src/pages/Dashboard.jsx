@@ -1770,20 +1770,6 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8">
                   {/* Left Column: Info Cards & Socials */}
                   <div className="space-y-6">
-                    {/* Logged In Info */}
-                    <div className={`glass rounded-[28px] border p-6 ${colors.glass} flex items-center justify-between`}>
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center font-bold text-lg text-white">
-                          {userInitials}
-                        </div>
-                        <div>
-                          <h4 className={`font-bold ${colors.text}`}>{profile?.name || "Aditya"}</h4>
-                          <p className={`text-xs ${colors.subtext}`}>{formatPhoneForDisplay(profile?.phone || "9319409696")}</p>
-                        </div>
-                      </div>
-                      <span className="px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-[10px] font-bold uppercase tracking-widest">Logged In</span>
-                    </div>
-
                     {/* Contact Cards */}
                     <div className="grid grid-cols-1 gap-4">
                       <a href="tel:+919811797407" className={`glass rounded-[24px] border p-6 ${colors.glass} group hover:border-blue-500/50 transition-all flex items-center gap-5`}>
