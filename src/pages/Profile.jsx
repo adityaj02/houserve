@@ -1,11 +1,10 @@
 import { useMemo, useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { saveUserProfile } from "../lib/profile";
 import VideoBackground from "../components/background/VideoBackground";
 import ThreeScene from "../components/background/ThreeScene";
 
 export default function Profile({ onComplete }) {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
@@ -46,11 +45,13 @@ export default function Profile({ onComplete }) {
     setErrorMessage("");
 
     try {
-      await saveUserProfile({
-        name: trimmedName,
-        phone: normalizedPhone,
-        location: trimmedLocation,
-      });
+      if (updateProfile) {
+        await updateProfile({
+          name: trimmedName,
+          phone: normalizedPhone,
+          location: trimmedLocation,
+        });
+      }
     } catch (error) {
       setLoading(false);
       setErrorMessage(error.message || "Unable to save profile right now. Please try again.");
