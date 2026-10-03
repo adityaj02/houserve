@@ -4,10 +4,10 @@ const AuthContext = createContext(null);
 
 // Mock user for testing — no Google auth, no API calls needed
 const MOCK_USER = {
-  name: "Aditya Marchande",
-  email: "adityajmarch020304@gmail.com",
-  phone: "9876543210",
-  location: "Delhi NCR",
+  name: "",
+  email: "",
+  phone: "",
+  location: "",
   avatar: null,
 };
 
