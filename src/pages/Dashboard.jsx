@@ -57,7 +57,7 @@ const hasResolvedLocation = (value = "") =>
     !String(value).toLowerCase().includes("denied")
   );
 
-export default function Dashboard({ onBackToHouserve, initialView }) {
+export default function Dashboard({ onBackToHouserve, initialView, initialSearchQuery = "" }) {
   const [theme, setTheme] = useState("light");
   const [activeIdx, setActiveIdx] = useState(0);
   const { location: detectedLocation, isLoading: isLocating, refreshLocation } = useLocation({ autoStart: false });
@@ -76,10 +76,12 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
   const [currentView, setCurrentView] = useState(() => initialView || localStorage.getItem("dashboard_view") || "home");
 
   useEffect(() => {
-    if (initialView) {
+    if (initialSearchQuery) {
+      setCurrentView("services");
+    } else if (initialView) {
       setCurrentView(initialView);
     }
-  }, [initialView]);
+  }, [initialView, initialSearchQuery]);
   const [activeFilter, setActiveFilter] = useState("All services");
   const [searchQuery, setSearchQuery] = useState("");
   const [bookings, setBookings] = useState([]);
@@ -1107,7 +1109,7 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
           )}
 
           {currentView === "services" && (
-            <ServicesView addToCart={addToCart} isInCart={isInCart} setCurrentView={switchView} theme={theme} />
+            <ServicesView addToCart={addToCart} isInCart={isInCart} setCurrentView={switchView} theme={theme} initialSearch={initialSearchQuery} />
           )}
 
           {currentView === "blog" && !readingPost && (
@@ -1669,35 +1671,6 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
                 </div>
               </section>
 
-              {/* Team Grid */}
-              <section className="px-6 lg:px-24 py-16 lg:py-24">
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-                  <div>
-                    <h2 className="text-4xl lg:text-5xl font-black premium-text">The team behind it</h2>
-                    <p className={`text-sm tracking-widest ${colors.subtext} font-bold mt-2`}>Building for your peace of mind</p>
-                  </div>
-                  <div className={`flex items-center gap-3 text-xs font-bold ${colors.subtext} hidden lg:flex`}>
-                    <span>170+ professionals across Delhi NCR</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                  {[
-                    { name: "Arjun Kapoor", role: "Co-Founder & CEO", badge: "Leadership", badgeColor: "bg-blue-500/10 text-blue-500", initials: "AK" },
-                    { name: "Rohit Sharma", role: "Head of Operations", badge: "Operations", badgeColor: "bg-emerald-500/10 text-emerald-500", initials: "RS" },
-                    { name: "Priya Mehta", role: "Customer Experience", badge: "Support", badgeColor: "bg-purple-500/10 text-purple-500", initials: "PM" },
-                    { name: "Vikram Nair", role: "Head of Professionals", badge: "Field Ops", badgeColor: "bg-amber-500/10 text-amber-500", initials: "VN" },
-                  ].map((m) => (
-                    <div key={m.name} className={`glass rounded-[32px] border p-8 ${colors.glass} flex flex-col items-center text-center group hover:-translate-y-2 transition-all`}>
-                      <div className={`w-20 h-20 rounded-full flex items-center justify-center text-xl font-black text-white bg-gradient-to-br ${m.initials === 'AK' ? 'from-blue-600 to-indigo-700' : m.initials === 'RS' ? 'from-emerald-600 to-teal-700' : m.initials === 'PM' ? 'from-purple-600 to-pink-700' : 'from-amber-600 to-orange-700'} mb-6 group-hover:scale-110 transition-transform shadow-xl`}>
-                        {m.initials}
-                      </div>
-                      <h3 className={`text-lg font-black ${colors.text} mb-1`}>{m.name}</h3>
-                      <p className={`text-xs ${colors.subtext} mb-4`}>{m.role}</p>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${m.badgeColor}`}>{m.badge}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
 
               {/* Trust Signals - Mobile Scroll */}
               <section className="px-4 lg:px-24 py-12 lg:py-24">
@@ -1877,7 +1850,7 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
                                 type="text" 
                                 value={contactForm.name}
                                 onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                                placeholder="Aditya"
+                                placeholder="Your Name"
                                 className={`w-full border rounded-2xl py-4 px-6 text-sm focus:border-blue-500/50 transition-all outline-none ${formErrors.name ? 'border-red-500' : colors.inputBg}`}
                               />
                             </div>
@@ -1887,7 +1860,7 @@ export default function Dashboard({ onBackToHouserve, initialView }) {
                                 type="text"
                                 value={contactForm.phone}
                                 onChange={(e) => setContactForm({...contactForm, phone: e.target.value})}
-                                placeholder="+91 9319409696"
+                                placeholder="+91 9876543210"
                                 className={`w-full border rounded-2xl py-4 px-6 text-sm focus:border-blue-500/50 transition-all outline-none ${formErrors.phone ? 'border-red-500' : colors.inputBg}`}
                               />
                             </div>

@@ -25,13 +25,13 @@ function formatPrice(value) {
 
 
 
-export default function ServicesView({ addToCart, isInCart, setCurrentView, theme }) {
+export default function ServicesView({ addToCart, isInCart, setCurrentView, theme, initialSearch = "" }) {
   const colors = getThemeTokens(theme);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchText, setSearchText] = useState(initialSearch);
+  const [searchQuery, setSearchQuery] = useState(initialSearch.trim().toLowerCase());
   const [activeCategory, setActiveCategory] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
 
