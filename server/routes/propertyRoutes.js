@@ -6,10 +6,11 @@ const { authMiddleware, optionalAuth } = require("../middleware/auth");
 // GET /api/properties — list with optional filters
 router.get("/", optionalAuth, async (req, res) => {
   try {
-    const { type, city, status, minPrice, maxPrice, limit, page } = req.query;
+    const { type, listingFor, city, status, minPrice, maxPrice, limit, page } = req.query;
     const filter = {};
 
     if (type) filter.type = type;
+    if (listingFor) filter.listingFor = listingFor;
     if (city) filter["location.city"] = new RegExp(city, "i");
     if (status) filter.status = status;
     if (minPrice || maxPrice) {

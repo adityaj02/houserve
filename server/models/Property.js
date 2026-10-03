@@ -11,6 +11,11 @@ const propertySchema = new mongoose.Schema(
       enum: ["apartment", "villa", "plot", "commercial", "pg", "independent-house"],
       default: "apartment",
     },
+    listingFor: {
+      type: String,
+      enum: ["sale", "rent"],
+      default: "sale",
+    },
     status: {
       type: String,
       enum: ["available", "sold", "rented", "pending"],

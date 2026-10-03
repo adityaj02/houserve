@@ -111,25 +111,12 @@ export default function Dashboard({ onBackToHouserve, initialView, initialSearch
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   // Contact Form State
-  const [contactForm, setContactForm] = useState(() => {
-    try {
-      const stored = localStorage.getItem("dashboard_contact_form");
-      return stored ? JSON.parse(stored) : {
-        name: "",
-        phone: "",
-        email: "",
-        service: "AC Service",
-        message: ""
-      };
-    } catch {
-      return {
-        name: "",
-        phone: "",
-        email: "",
-        service: "AC Service",
-        message: ""
-      };
-    }
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    service: "AC Service",
+    message: ""
   });
   const [contactSuccess, setContactSuccess] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -1813,9 +1800,6 @@ export default function Dashboard({ onBackToHouserve, initialView, initialSearch
                       <div className="flex gap-4">
                         <a href="https://wa.me/919811797407" target="_blank" rel="noopener noreferrer" className={`flex-1 glass border py-3.5 rounded-2xl flex items-center justify-center gap-3 text-xs font-bold transition-all hover:bg-emerald-500/10 hover:border-emerald-500/40 text-[#25D366] ${colors.glass}`}>
                           <span>WhatsApp</span>
-                        </a>
-                        <a href="https://instagram.com/houserve.official/" target="_blank" rel="noopener noreferrer" className={`flex-1 glass border py-3.5 rounded-2xl flex items-center justify-center gap-3 text-xs font-bold transition-all hover:bg-pink-500/10 hover:border-pink-500/40 text-[#E4405F] ${colors.glass}`}>
-                          <span>Instagram</span>
                         </a>
                       </div>
                     </div>

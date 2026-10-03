@@ -42,6 +42,7 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
 
   const [formData, setFormData] = useState({
     title: "",
+    listingFor: "sale",
     type: "apartment",
     status: "available",
     city: "Bengaluru",
@@ -139,6 +140,7 @@ export default function PostPropertyModal({ onClose, onSuccess }) {
       description: formData.description || "Architectural freehold residence verified with direct seller deed.",
       price: Number(formData.price),
       type: formData.type,
+      listingFor: formData.listingFor || "sale",
       status: formData.status,
       location: {
         address: formData.address,

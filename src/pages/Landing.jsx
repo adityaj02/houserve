@@ -52,11 +52,15 @@ export default function Landing({ initialLoginOpen = false }) {
     const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
     setPropsLoading(true);
     Promise.all([
-      fetch(`${apiUrl}/api/properties?type=sale`).then(r => r.json()).catch(() => ({ properties: [] })),
-      fetch(`${apiUrl}/api/properties?type=rent`).then(r => r.json()).catch(() => ({ properties: [] })),
+      fetch(`${apiUrl}/api/properties?listingFor=sale`).then(r => r.json()).catch(() => ({ properties: [] })),
+      fetch(`${apiUrl}/api/properties?listingFor=rent`).then(r => r.json()).catch(() => ({ properties: [] })),
     ]).then(([saleData, rentData]) => {
-      setBuyProps(saleData.properties?.slice(0, 3) || []);
-      setRentProps(rentData.properties?.slice(0, 3) || []);
+      const saleList = saleData.properties || [];
+      const rentList = rentData.properties || [];
+      // Pick up to 3 random properties from each list
+      const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
+      setBuyProps(shuffle(saleList).slice(0, 3));
+      setRentProps(shuffle(rentList).slice(0, 3));
     }).finally(() => setPropsLoading(false));
   }, []);
 

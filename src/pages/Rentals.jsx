@@ -31,7 +31,7 @@ export default function Rentals({ onBack, onOpenLogin }) {
     setError(null);
     try {
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const res = await fetch(`${apiUrl}/api/properties?type=rent`);
+      const res = await fetch(`${apiUrl}/api/properties?listingFor=rent`);
       if (!res.ok) {
         throw new Error("Failed to fetch rentals from server.");
       }
