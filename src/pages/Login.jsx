@@ -29,7 +29,7 @@ export default function Login({ close }) {
             className="w-full max-w-[300px] py-3.5 px-4 rounded-full bg-white text-slate-900 hover:bg-slate-100 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95 cursor-pointer"
           >
             <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
-            <span>Continue as Aditya</span>
+            <span>Continue with Google</span>
           </button>
 
           <div className="mt-8">

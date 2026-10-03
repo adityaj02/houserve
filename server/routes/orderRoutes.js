@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH /api/orders/:orderId/cancel — cancel an order
-router.patch("/:orderId/cancel", authMiddleware, async (req, res) => {
+router.patch("/:orderId/cancel", async (req, res) => {
   try {
     const order = await Order.findOneAndUpdate(
       { orderId: req.params.orderId },

@@ -106,6 +106,20 @@ export default function CartSummary({
         localStorage.setItem("checkout_address_details", JSON.stringify({ ...addressDetails, address: resolvedAddress }));
     }, [addressDetails, resolvedAddress]);
 
+    // Sync form with logged-in user profile (clears stale data from previous sessions)
+    useEffect(() => {
+        if (profile) {
+            setAddressDetails({
+                name: profile.name || "",
+                contact: profile.phone || "",
+                address: profile.location || "",
+                city: "Delhi NCR",
+                pincode: "",
+            });
+            localStorage.removeItem("checkout_address_details");
+        }
+    }, [profile?.name, profile?.phone, profile?.location]);
+
     const PLATFORM_FEE_PER_ITEM = 29;
 
     const subtotal = useMemo(
@@ -463,7 +477,7 @@ export default function CartSummary({
                                     <span className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Full Name</span>
                                     <input
                                         type="text"
-                                        placeholder="e.g. Aditya Jha"
+                                        placeholder="Your full name"
                                         value={addressDetails.name || ''}
                                         onChange={(e) => setAddressDetails((prev) => ({ ...prev, name: e.target.value }))}
                                         className="bg-transparent outline-none font-semibold text-sm text-slate-950"
